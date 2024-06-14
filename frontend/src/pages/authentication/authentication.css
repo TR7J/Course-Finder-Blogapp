@@ -1,0 +1,115 @@
+
+.main-sign{
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    padding: 20px;
+}
+
+.info-box {
+    max-width: 400px;
+    padding: 20px;
+    color: #fff;
+    margin-right: 80px;
+}
+
+.container{
+    /* background-color: none;
+    width: auto;
+    height: auto;
+    margin: auto; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 70px; */
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 300px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+}
+
+
+.container-inputs{
+    margin-top: 60px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input{
+    margin-bottom: 20px;
+}
+
+.input label{
+    display: block;
+}
+
+.input input{
+    width: 300px;
+    height: 30px;
+    border: none;
+}
+
+.container-header{
+    color: #333;
+}
+
+.container-forgotpass span{
+    color: #333;
+    cursor: pointer;
+}
+
+.container-buttons{
+    display: flex;
+    margin: 30px auto;
+    gap: 25px;
+}
+
+.create-login{
+    font-size: 50px;
+}
+.create-login2{
+    font-size: 40px;
+}
+
+.course-finder{
+    color: #000;
+}
+
+.switch-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 40px;
+    background-color: #FFFFFF;
+    border-radius: 45px;
+    cursor: pointer;
+    border: none;
+    color: #000;
+}
+
+.span-signup{
+    color: #333;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
