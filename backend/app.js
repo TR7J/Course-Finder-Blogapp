@@ -4,9 +4,12 @@ const cors = require('cors')
 const dotenv = require('dotenv').config()
 const auth = require('./routes/auth')
 const mongoose = require('mongoose')
+const Post = require('./models/postModel')
 const cookieParser = require('cookie-parser')
-
-
+const multer = require('multer')
+const uploadMiddleware = multer({ dest: 'uploads/' });
+const fs = require('fs')
+const jwt = require('jsonwebtoken')
 
 /* Initialize express */
 const app = express()
@@ -37,6 +40,57 @@ app.use(
 /* MIDDLEWARE FOR ROUTES*/
 app.use('/', auth)
 
+app.post('/post', uploadMiddleware.single('file'), async(req, res) => {
+    try {
+        const { originalname, path } = req.file
+        const parts = originalname.split('.')
+        const ext = parts[parts.length - 1]
+        const newPath = path + '.' + ext
+        fs.renameSync(path, newPath)
+
+        const {token} = req.cookies;
+        jwt.verify(token, process.env.JWT_SECRET, {}, async (err,info) => {
+            if (err) throw err;
+            const { title, summary, category, description } = req.body
+            const post = await Post.create({
+                title,
+                summary,
+                image: newPath,
+                category,
+                description,
+                creator: info.id
+            })
+        res.json(post)
+        });
+
+
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
+});
+
+app.get('/post', async (req, res) => {
+    try {
+        const posts = await Post.find()
+            .populate('creator', ['username']) 
+            .sort({createdAt: -1})
+            .limit(20);
+
+        res.json(posts);
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+/* app.get('/post/:id', async (req, res) => {
+    const {id} = req.params;
+    const postDoc = await Post.findById(id).populate('author', ['username']);
+    res.json(postDoc);
+})
+  
+ */
 
 /* CREATING A PORT */
 app.listen(4000, ()=>{
