@@ -19,7 +19,7 @@ function App() {
   return (
     <div>
       <Toaster position='bottom-right' toastOptions={{duration: 2000}} />
-      <BrowserRouter>
+      <BrowserRouter> 
         <Routes>
           <Route exact path='/Signup' element={<SignUp/>}/>
           <Route path='/LogIn' element={<Login/>}/>
