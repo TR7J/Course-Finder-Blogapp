@@ -1,49 +1,22 @@
 // src/Testimonies.js
 import React from 'react';
 import './Testimonies.css';
-import img1 from '../../images/Aerospace-Engineering.jpeg';
-import axios from 'axios';
+import {Link} from 'react-router-dom'
 
 
-export default function Testimonies({title, summary, files, category, description, creator}){
-/*   const testimonies = [
-    {
-      name: 'Stacy',
-      likes: '1.97k',
-      description: 'Studying Law at UCLA',
-      image: img1, // Update with the actual path
-      profileImage: img1,
-    },
-    {
-      name: 'Yiyang',
-      likes: '3.07k',
-      description: 'Studied Civil Engineering at MIT',
-      image: img1, // Update with the actual path
-      profileImage: img1,
-    },
-    {
-      name: 'Zach',
-      likes: '5.07k',
-      description: 'Did Medicine at Harvard',
-      image: img1, // Update with the actual path
-      profileImage: img1,
-    },
-  ]; */
-
+export default function Testimonies({_id, title, summary, files, category, description, creator}){
   return (
     <div className="testimonies-container">
-      <h1 className="title">Testimonies</h1>
-      <p className="subtitle">
-        Hear from our graduates as they share their experiences and successes. From choosing the right courses and universities to achieving their academic goals
-      </p>
       <div className="testimonies">
           <div className="testimony-card">
-            <img src={files} alt={title} className="testimony-image" />
+            <Link to={`/post/${_id}`}>
+              <img src={'http://localhost:4000/'+files} alt={title} className="testimony-image" />
+            </Link>
             <div className="profile-card">
               <div className='profile-cardandlike'>
                 <div className='profile-imgandname'>
                     <img src=''alt='' className="profile-image" />
-                    <p className="profile-name">{creator?.username || 'Unknown'}</p>
+                    <p className="profile-name">{creator.username}</p>
                 </div>
                 <div className="profile-info">
                     <p className="profile-likes">
@@ -58,6 +31,5 @@ export default function Testimonies({title, summary, files, category, descriptio
       </div>
     </div>
   );
-};
-
+}; 
 

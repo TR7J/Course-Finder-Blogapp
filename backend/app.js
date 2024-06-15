@@ -5,11 +5,13 @@ const dotenv = require('dotenv').config()
 const auth = require('./routes/auth')
 const mongoose = require('mongoose')
 const Post = require('./models/postModel')
+
 const cookieParser = require('cookie-parser')
 const multer = require('multer')
 const uploadMiddleware = multer({ dest: 'uploads/' });
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
+
 
 /* Initialize express */
 const app = express()
@@ -24,6 +26,8 @@ app.use(express.json())
 
 /* MIDDLEWARE FOR COOKIE-PARSER */
 app.use(cookieParser())
+
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 /* MIDDLEWARE FOR PARSING FORM DATA */
 app.use(express.urlencoded({extended: false}))
@@ -58,11 +62,48 @@ app.post('/post', uploadMiddleware.single('file'), async(req, res) => {
                 image: newPath,
                 category,
                 description,
-                creator: info.id
-            })
-        res.json(post)
+                creator: info.id,
+            }) 
+            res.json(post)
         });
 
+
+    } catch (error) {
+        console .error(error)
+        res.status(500).json({ message: 'Internal server error' })
+    }
+
+});
+
+app.put('/post', uploadMiddleware.single('file'), async(req, res) => {
+    try {
+        let newPath = null;
+        if (req.file) {
+            const {originalname,path} = req.file;
+            const parts = originalname.split('.');
+            const ext = parts[parts.length - 1];
+            newPath = path+'.'+ext;
+            fs.renameSync(path, newPath);
+        }
+
+        const {token} = req.cookies;
+        jwt.verify(token, process.env.JWT_SECRET, {}, async (err,info) => {
+            if (err) throw err;
+            const {id,title,summary,category,description} = req.body;
+            const post = await Post.findById(id);
+            const isCreator = JSON.stringify(post.creator) === JSON.stringify(info.id);
+            if (!isCreator) {
+                return res.status(400).json('you are not the creator of this blog');
+            }
+            await Post.updateOne({_id: id} , {
+                title,
+                summary,
+                category,
+                image: newPath ? newPath : post.cover,
+                description,
+            });
+            res.json(post);
+        });
 
     } catch (error) {
         console.error(error)
@@ -71,12 +112,14 @@ app.post('/post', uploadMiddleware.single('file'), async(req, res) => {
 
 });
 
+
+
 app.get('/post', async (req, res) => {
     try {
         const posts = await Post.find()
             .populate('creator', ['username']) 
-            .sort({createdAt: -1})
-            .limit(20);
+/*             .sort({createdAt: -1})
+            .limit(20);  */
 
         res.json(posts);
     } catch (error) {
@@ -84,13 +127,16 @@ app.get('/post', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-/* app.get('/post/:id', async (req, res) => {
+
+
+app.get('/post/:id', async (req, res) => {
     const {id} = req.params;
-    const postDoc = await Post.findById(id).populate('author', ['username']);
-    res.json(postDoc);
+    const postBlog = await Post.findById(id).populate('creator', ['username']);
+    res.json(postBlog);
 })
   
- */
+
+
 
 /* CREATING A PORT */
 app.listen(4000, ()=>{

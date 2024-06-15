@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from 'react-router-dom'
 import Body from '..components/homebody.jsx'
 import Footer from '../components/footer.jsx'
@@ -63,8 +63,12 @@ export default function Home(){
     
         return (
             <div>
+                <h1 className="title">Testimonies</h1>
+                <p className="subtitle">
+                Hear from our graduates as they share their experiences and successes. From choosing the right courses and universities to achieving their academic goals
+                </p>
                 {posts.map(post => {
-                    return <Testimonies key={post._id} {...post}/>
+                    return <Testimonies _id={post._id} title={post.title} summary={post.summary} files={post.image} creator={post.creator}/>
                 })}
             </div>
         );

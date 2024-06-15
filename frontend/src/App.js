@@ -4,10 +4,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SignUp from './pages/authentication/signup';
 import Login from './pages/authentication/login';
 import Home from './pages/home/home'; 
-import Testimonies from './components/testimonies/testimonies';
 import axios from 'axios';
 import {Toaster} from 'react-hot-toast';
-import CreatePost from './pages/createPost/createPost';
+import CreateBlog from './pages/createBlog/createBlog';
+import EditBlog from './pages/editBlog/editBlog';
+import SingleBlog from './pages/singleBlog/singleBlog';
 
 
 /* BACKEND URL */
@@ -18,16 +19,18 @@ axios.defaults.withCredentials = true
 function App() {
   return (
     <div>
-      <Toaster position='bottom-right' toastOptions={{duration: 2000}} />
-      <BrowserRouter> 
-        <Routes>
-          <Route exact path='/Signup' element={<SignUp/>}/>
-          <Route path='/LogIn' element={<Login/>}/>
-          <Route path='/Home' element={<Home/>}/> 
-          <Route path='/' element={<Testimonies/>}/>
-          <Route path='/CreatePost' element={<CreatePost/>}/>
-        </Routes>
-      </BrowserRouter>
+        <Toaster position='bottom-right' toastOptions={{duration: 2000}} />
+        <BrowserRouter> 
+          <Routes>
+            <Route exact path='/Signup' element={<SignUp/>}/>
+            <Route path='/LogIn' element={<Login/>}/>
+            <Route path='/' element={<Home/>}/> 
+            <Route path='/CreatePost' element={<CreateBlog/>}/>
+            <Route path='/post/:id' element={<SingleBlog/>}/>
+            <Route path='/edit/:id' element={<EditBlog/>}/>
+          </Routes>
+        </BrowserRouter>
+
     </div>
   );
 }
