@@ -7,7 +7,17 @@ const PostSchema = new Schema({
     image: String,
     category: String,
     description: String,
-    creator: {type: Schema.Types.ObjectId, ref:'User'}
+    creator: {type: Schema.Types.ObjectId, ref:'User'},
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', 
+    }],
+    likeCount: { type: Number, default: 0 },
+    comments: [{ 
+        text: String,
+        creator: { type: Schema.Types.ObjectId, ref: 'User' },
+        createdAt: { type: Date, default: Date.now }
+    }]
 }, {
     timestamps: true,
 })

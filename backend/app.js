@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config()
 const auth = require('./routes/auth')
 const mongoose = require('mongoose')
 const Post = require('./models/postModel')
-
+const User = require('./models/userModel')
 const cookieParser = require('cookie-parser')
 const multer = require('multer')
 const uploadMiddleware = multer({ dest: 'uploads/' });
@@ -91,9 +91,11 @@ app.put('/post', uploadMiddleware.single('file'), async(req, res) => {
             if (err) throw err;
             const {id,title,summary,category,description} = req.body;
             const post = await Post.findById(id);
+            const user = await User.findById(info.id)
+            const isAdmin = user.role === 'admin';
             const isCreator = JSON.stringify(post.creator) === JSON.stringify(info.id);
-            if (!isCreator) {
-                return res.status(400).json('you are not the creator of this blog');
+            if (!(isCreator || isAdmin)) {
+                return res.status(400).json('you are not allowed to edit this blog');
             }
             await Post.updateOne({_id: id} , {
                 title,
@@ -111,6 +113,30 @@ app.put('/post', uploadMiddleware.single('file'), async(req, res) => {
     }
 
 });
+
+app.delete('/post/:id', async(req, res) => {
+  try {
+    const {id} = req.params
+    const {token} = req.cookies;
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err,info) => {
+        if (err) throw err;
+        const post = await Post.findById(id);
+        const user = await User.findById(info.id)
+        const isAdmin = user.role === 'admin';
+        const isCreator = JSON.stringify(post.creator) === JSON.stringify(info.id); 
+        if (!(isCreator || isAdmin)) {
+            return res.status(400).json('you are not allowed to delete this blog');
+        }
+        await Post.deleteOne({_id: id});
+        res.json({message: 'post deleted successfully'});
+    });
+
+} catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Internal server error' })
+}
+
+})
 
 
 
@@ -135,8 +161,90 @@ app.get('/post/:id', async (req, res) => {
     res.json(postBlog);
 })
   
+app.post('/post/:testimonyId', async (req, res) => {
+    const testimonyId = req.params.testimonyId;
+    const token = req.headers.authorization.split(' ')[1]; 
+  
+    try {
+      // Verify the token and get the user's ID
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decoded.id;
+  
+      // Find the testimony by ID
+      const post = await Post.findById(testimonyId);
+  
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      // Check if the user already liked this post
+      const alreadyLiked = post.likes.includes(userId);
+  
+      if (alreadyLiked) {
+        // User already liked, so unlike it
+        post.likes.pull(userId); // Remove user from likes array
+        post.likeCount = Math.max(0, post.likeCount - 1); // Decrement like count and ensure it's not less than 0
+      } else {
+        // User hasn't liked, so like it
+        post.likes.push(userId); // Add user to likes array
+        post.likeCount += 1; // Increment like count
+      }
+  
+      await post.save();
+      res.status(200).json({ likeCount: post.likeCount }); // Return updated like count
+  
+    } catch (error) {
+      console.error('Error while liking post:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
-
+  app.post('/post/:postId/comment', async (req, res) => {
+    const postId = req.params.postId;
+    const commentText = req.body.commentText;
+     // Assuming you have a middleware to authenticate users
+    const token = req.headers.authorization.split(' ')[1]; // Assuming Bearer token format
+  
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        const post = await Post.findById(postId);
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+  
+      const newComment = {
+        text: commentText,
+        creator: userId
+      };
+  
+      post.comments.push(newComment);
+      await post.save();
+  
+      res.status(201).json({ message: 'Comment added successfully' });
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+  
+  app.get('/post/:postId/comments', async (req, res) => {
+    const postId = req.params.postId;
+  
+    try {
+      const post = await Post.findById(postId).populate('comments.creator');
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+  
+      const comments = post.comments;
+  
+      res.status(200).json(comments);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
 /* CREATING A PORT */
 app.listen(4000, ()=>{

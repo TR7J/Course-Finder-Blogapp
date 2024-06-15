@@ -59,7 +59,30 @@ export default function EditBlog(){
         }
     }
 
+    async function deleteBlog() {
+        try {
+            const response = await axios.delete(`/post/${id}`, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true,
+            });
+
+            if(response.data.error){
+                toast.error(response.data.error);
+            } else {
+                toast.success("Blog Deleted");
+                navigate('/'); 
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("An error occurred while Deleting the blog");
+        }
+    }
+
+
     return (
+        <>
         <form onSubmit={editBlog}>
             <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required/>
             <input type="text" placeholder="Summary" value={summary} onChange={e => setSummary(e.target.value)} required/>
@@ -68,5 +91,7 @@ export default function EditBlog(){
             <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required/>
             <button type="submit">Edit Blog</button>
         </form>
+        <button type="button" onClick={deleteBlog}>Delete Blog</button>
+        </>
     )
 }
