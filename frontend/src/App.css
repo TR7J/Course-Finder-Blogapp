@@ -33,10 +33,10 @@ form textarea {
 
 .form-button {
     background-color: goldenrod;
-    text: grey;
+    font: grey;
 }
 
 .delete-button {
     background-color: red;
-    text: aliceblue;
+    font: aliceblue;
 }
