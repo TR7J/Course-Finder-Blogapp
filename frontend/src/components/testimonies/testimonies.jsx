@@ -3,6 +3,8 @@ import './Testimonies.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import '../../pages/home/home.css'
+import profile from '../../images/profile.png'
 
 export default function Testimonies ({ _id, title, summary, files, category, description, creator, likeCount })  {
     const [liked, setLiked] = useState(false);
@@ -61,7 +63,7 @@ export default function Testimonies ({ _id, title, summary, files, category, des
                     <div className="profile-card">
                         <div className="profile-cardandlike">
                             <div className="profile-imgandname">
-                                <img src="" alt="" className="profile-image" />
+                                <img src={profile} alt="" className="profile-image" />
                                 <p className="profile-name">{creator.username}</p>
                             </div>
                             <div className="profile-info">

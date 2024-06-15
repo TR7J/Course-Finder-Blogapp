@@ -29,6 +29,7 @@ export default function Home(){
                 <p className="subtitle">
                 Hear from our graduates as they share their experiences and successes. From choosing the right courses and universities to achieving their academic goals
                 </p>
+                <div className="testimonies-part">
                 {   posts
                         .filter(function(z){
                             if(search === ""){
@@ -46,6 +47,7 @@ export default function Home(){
                     })
                 
                 }
+                </div>
             </div>
         );
 }

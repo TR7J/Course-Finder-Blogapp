@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-hot-toast'
+import '../editBlog/editBlog.css'
 
 export default function EditBlog(){
     const {id} = useParams( )
@@ -83,15 +84,16 @@ export default function EditBlog(){
 
     return (
         <>
-        <form onSubmit={editBlog}>
-            <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required/>
-            <input type="text" placeholder="Summary" value={summary} onChange={e => setSummary(e.target.value)} required/>
-            <input type="file" onChange={e => setFiles(e.target.files)} required/>
-            <input type="text" placeholder="Category" onChange={e => setCategory(e.target.value)} required/>
-            <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required/>
-            <button type="submit">Edit Blog</button>
+        <form onSubmit={editBlog} className="edit-blog-form">
+            <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required className="full-width"/>
+            <input type="text" placeholder="Summary" value={summary} onChange={e => setSummary(e.target.value)} required className="full-width"/>
+            <input type="file" onChange={e => setFiles(e.target.files)} required className="full-width"/>
+            <input type="text" placeholder="Category" onChange={e => setCategory(e.target.value)} required className="full-width"/>
+            <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required className="full-width"/>
+            <button type="submit" className="full-width-btn">Edit Blog</button>
+            <button type="button" className="full-width-btn" onClick={deleteBlog}>Delete Blog</button>
         </form>
-        <button type="button" onClick={deleteBlog}>Delete Blog</button>
+        
         </>
     )
 }

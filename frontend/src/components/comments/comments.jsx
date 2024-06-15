@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './comments.css'
 
 export default function Comments({ postId, token}) {
   const [comments, setComments] = useState([]);
@@ -40,19 +41,20 @@ export default function Comments({ postId, token}) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='comment'>
         <input
           type="text"
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Add a comment"
+          className='comments-input'
         />
-        <button type="submit">Submit</button>
+        <button type="submit" className='comments-send'>Submit</button>
       </form>
       {comments.map((comment) => (
-        <div key={comment._id}>
-          <div>{comment.creator && comment.creator.username}</div>
-          <div>{comment.text}</div>
+        <div key={comment._id} className='comment-section'>
+          <div className='comment-user'>@{comment.creator && comment.creator.username}</div>
+          <div className='single-comment'>{comment.text}</div>
         </div>
       ))}
     </div>
