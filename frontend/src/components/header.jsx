@@ -24,7 +24,7 @@ function Header() {
                             </img>
                         </div>
 
-                        <button className="chatbox">Chatbox</button>
+                        <button className="chatbox"><Link to="">Chatbox</Link></button>
 
                         <section className="home">
                             <h2 className="stories-h2">Stories</h2>
