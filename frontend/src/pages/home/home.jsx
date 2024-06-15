@@ -1,8 +1,31 @@
-import React from "react"
+import React from "react";
+import { Routes, Route } from 'react-router-dom'
+import Body from '..components/homebody.jsx'
+import Footer from '../components/footer.jsx'
+
+function Home() {
+    return (
+      <Routes>
+            <Route path='/body' element={<Body/>}/>
+            <Route path='/footer' element={<Footer/>} />
+      </Routes>
+    
+    )}
+
+export default Home;
+
+
+
+
+//I COMMENTED THE INITIAL CODE FOR EXTRACTION OF WHAT WE NEED
+
+/*import React from "react"
 import '../home/home.css'
 import Testimonies from "../../components/testimonies/testimonies"
 import axios from 'axios';
 
+
+//!YOU HAD COMMENTED OUT THE FUNCTION BELOW ALREADY!
 
 export default function Home(){
     /* const [posts, setPosts] = React.useState([])
@@ -23,7 +46,7 @@ export default function Home(){
         </div>
     ) */
     
-        const [posts, setPosts] = React.useState([]);
+       /* const [posts, setPosts] = React.useState([]);
 
         React.useEffect(() => {
             async function fetchPosts() {
@@ -45,4 +68,4 @@ export default function Home(){
                 })}
             </div>
         );
-}
+}*/
