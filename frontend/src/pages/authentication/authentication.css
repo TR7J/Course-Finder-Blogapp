@@ -1,11 +1,10 @@
-
 .main-sign{
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to right, #4e54c8, #8f94fb);
     padding: 20px;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
 }
 
 .info-box {
@@ -113,3 +112,95 @@
 }
 
 
+
+/* Media Queries */
+@media (max-width: 1200px) {
+    .container-inputs {
+        width: 400px;
+    }
+
+    .input input {
+        width: 250px;
+    }
+
+    .info-box {
+        margin-right: 40px;
+    }
+
+    .container {
+        margin-left: 40px;
+    }
+}
+
+@media (min-width: 768px ) and (max-width: 1024px) {
+    .main-sign {
+        flex-direction: row;
+        padding: 10px;
+    }
+
+    .info-box {
+        margin-right: 0;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: small;
+    }
+
+ 
+    .container{
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 8px;
+        min-width: 300px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 80px;
+    }
+}
+
+@media (min-width: 350px) and (max-width: 700px) {
+    .container {
+        padding: 20px;
+    }
+
+    .create-login {
+        font-size: 40px;
+    }
+
+    .create-login2 {
+        font-size: 30px;
+    }
+
+    .container{
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 8px;
+        min-width: 300px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 30px;
+    }
+
+    .info-box {
+        margin-right: 0;
+        margin-bottom: 20px;
+        text-align: center;
+        font-size: small;
+    }
+
+    .main-sign{
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to right, #4e54c8, #8f94fb);
+        padding: 20px;
+        width: 100%;
+    }
+}
