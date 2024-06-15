@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import '../../App.css'
 
 export default function CreateBlog(){
     const [title, setTitle] = React.useState('');
@@ -49,7 +50,7 @@ export default function CreateBlog(){
             <input type="file" onChange={e => setFiles(e.target.files)} required/>
             <input type="text" placeholder="Category" onChange={e => setCategory(e.target.value)} required/>
             <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required/>
-            <button type="submit">Create Blog</button>
+            <button className='form-button' type="submit">Create Blog</button>
         </form>
     );
 }

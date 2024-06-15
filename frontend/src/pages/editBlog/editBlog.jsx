@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-hot-toast'
+import '../../App.css'
 
 export default function EditBlog(){
     const {id} = useParams( )
@@ -89,9 +90,9 @@ export default function EditBlog(){
             <input type="file" onChange={e => setFiles(e.target.files)} required/>
             <input type="text" placeholder="Category" onChange={e => setCategory(e.target.value)} required/>
             <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required/>
-            <button type="submit">Edit Blog</button>
+            <button className="form-button" type="submit">Edit Blog</button>
         </form>
-        <button type="button" onClick={deleteBlog}>Delete Blog</button>
+        <button className="delete-button" type="button" onClick={deleteBlog}>Delete Blog</button>
         </>
     )
 }
