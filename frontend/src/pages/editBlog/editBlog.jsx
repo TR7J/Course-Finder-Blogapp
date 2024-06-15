@@ -2,7 +2,9 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-hot-toast'
+// import '../../App.css'
 import '../editBlog/editBlog.css'
+
 
 export default function EditBlog(){
     const {id} = useParams( )
@@ -94,6 +96,7 @@ export default function EditBlog(){
             <button type="button" className="full-width-btn" onClick={deleteBlog}>Delete Blog</button>
         </form>
         
+
         </>
     )
 }

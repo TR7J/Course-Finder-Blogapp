@@ -2,7 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+
+//import '../../App.css'
+
 import './createBlog.css'
+
 
 export default function CreateBlog(){
     const [title, setTitle] = React.useState('');
@@ -51,6 +55,7 @@ export default function CreateBlog(){
             <input type="text" placeholder="Category" onChange={e => setCategory(e.target.value)} required className="full-width"/>
             <textarea name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} required className="full-width"/>
             <button type="submit" className="full-width-btn">Create Blog</button>
+
         </form>
     );
 }

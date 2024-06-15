@@ -1,0 +1,42 @@
+/*HEADER*/
+
+
+/*FOOTER*/
+
+
+/*CREATE/EDIT FORMS*/
+
+form {
+    margin: auto;
+    min-width: 50vw;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 5px;
+    background-color: antiquewhite;
+}
+
+form input {
+    display: block;
+    width: 100%;
+    margin: 5px;
+    border-radius: 4px;
+    border-width: grey 2px;
+    box-shadow: inset;
+    padding: 5px;
+}
+
+form textarea {
+    margin: 10px auto;
+    border-width: 2px;
+    border-radius: 3px;
+    min-height: 100px;
+}
+
+.form-button {
+    background-color: goldenrod;
+    font: grey;
+}
+
+.delete-button {
+    background-color: red;
+    font: aliceblue;
+}
